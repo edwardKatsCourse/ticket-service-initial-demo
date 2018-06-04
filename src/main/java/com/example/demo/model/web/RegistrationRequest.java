@@ -15,6 +15,15 @@ import org.hibernate.validator.constraints.NotBlank;
 @Builder
 public class RegistrationRequest {
 
+    /**
+     * @NotNull - not null
+     * @NotEmpty - not null && length != 0
+     * @NotBlank - not null && trim && length != 0
+     *
+     * @Length - string length
+     * @Min(1)
+     * @Max(2)
+     */
     @NotBlank(message = "First name cannot be blank")
     @Length(min = 3, max = 255, message = "First name should be between 3 and 255 characters")
     private String firstName;

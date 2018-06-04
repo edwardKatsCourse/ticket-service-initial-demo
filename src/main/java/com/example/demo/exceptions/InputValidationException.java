@@ -24,6 +24,11 @@ public class InputValidationException extends GeneralAPIException {
         return HttpStatus.BAD_REQUEST;
     }
 
+    /**
+     * Key - field (i.e., email)
+     * Value - what went wrong with this field
+     * @return
+     */
     public Map<String, List<String>> getInputValidationErrors() {
         return this.result
                 .getFieldErrors()

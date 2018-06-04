@@ -25,7 +25,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public void register(@RequestBody @Valid RegistrationRequest registrationRequest, BindingResult result) {
+    public void register(@RequestBody @Valid RegistrationRequest registrationRequest,
+                         BindingResult result) {
 
         if (result.hasErrors()) {
 
@@ -35,13 +36,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        if (loginRequest.getEmail() == null ||
-                loginRequest.getEmail().isEmpty() ||
-                !loginRequest.getEmail().contains("@") ||
-                loginRequest.getEmail().length() > 255) {
-
-            throw new RuntimeException("Email format is incorrect");
+    public LoginResponse login(@RequestBody @Valid LoginRequest loginRequest,
+                               BindingResult result) {
+        if (result.hasErrors()) {
+            throw new InputValidationException(result);
         }
 
         return userService.login(loginRequest);
