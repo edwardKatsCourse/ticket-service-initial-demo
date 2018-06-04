@@ -1,0 +1,4 @@
+Swagger configuration in the project:
+1. Add required dependencies to pom.xml
+2. Create @Configuration bean and configure our swagger
+3. Allow swagger to Spring Security exclusion

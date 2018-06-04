@@ -1,9 +1,12 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exceptions.EmailDuplicationException;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.entity.UserSession;
+import com.example.demo.model.entity.converters.UserType;
 import com.example.demo.model.web.LoginRequest;
 import com.example.demo.model.web.LoginResponse;
+import com.example.demo.model.web.RegistrationRequest;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.UserSessionRepository;
 import com.example.demo.service.UserService;
@@ -22,6 +25,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
+    public void register(RegistrationRequest registrationRequest) {
+        if (userRepository.existsByEmail(registrationRequest.getEmail())) {
+            throw new EmailDuplicationException(registrationRequest.getEmail());
+        }
+
+        User user = User.builder()
+                .userType(UserType.REGULAR)
+                .email(registrationRequest.getEmail())
+                .firstName(registrationRequest.getFirstName())
+                .lastName(registrationRequest.getLastName())
+                .build();
+
+        userRepository.save(user);
+    }
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {

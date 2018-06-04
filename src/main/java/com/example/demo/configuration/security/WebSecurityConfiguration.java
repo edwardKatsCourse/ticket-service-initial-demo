@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,7 +27,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         String[] permittedWithoutAuthorization = Stream
                 .of(
-                        "/users/registration",
+                        "/users/register",
                         "/users/login",
                         "/events/both")
                 .toArray(String[]::new);
@@ -40,5 +41,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         http.addFilterBefore(myFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .mvcMatchers(
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/configuration/**",
+                        "/swagger-ui.html",
+                        "/webjars/**");
+        super.configure(web);
+
     }
 }
