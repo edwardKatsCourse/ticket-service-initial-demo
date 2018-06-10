@@ -25,4 +25,6 @@ public class User {
 
     @Convert(converter = UserTypeConverter.class)
     private UserType userType;
+
+    private String middleName;
 }

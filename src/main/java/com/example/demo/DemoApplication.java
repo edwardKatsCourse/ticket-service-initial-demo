@@ -1,10 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.model.entity.*;
-import com.example.demo.model.entity.converters.EventStatus;
+import com.example.demo.model.entity.User;
 import com.example.demo.model.entity.converters.UserType;
-import com.example.demo.repository.EventRepository;
-import com.example.demo.repository.HallRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,9 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -32,49 +27,10 @@ class Runner implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private EventRepository eventRepository;
-
-    @Autowired
-    private HallRepository hallRepository;
-
     @Override
     public void run(String... args) throws Exception {
         createUsers();
-        createHalls();
-        createEvent();
     }
-
-    private void createHalls() {
-        Hall hall_1 = Hall.builder()
-                .name("Hall 1")
-                .places(200)
-                .build();
-
-        Hall hall_2 = Hall.builder()
-                .name("Hall 2")
-                .places(300)
-                .build();
-
-//        hallRepository.save(hall_1);
-//        hallRepository.save(hall_2);
-        hallRepository.saveAll(Stream.of(hall_1, hall_2).collect(Collectors.toList()));
-    }
-
-    private void createEvent() {
-        Hall hall = hallRepository.getOne(1);
-        LocalDateTime start = LocalDateTime.of(2019, 5, 20, 20, 0);
-        Event event = Event.builder()
-                .hall(hall)
-                .eventName("EuroVision Concert")
-                .eventStart(start)
-                .eventEnd(start.plusHours(5))
-                .eventStatus(EventStatus.SCHEDULED)
-                .build();
-
-        eventRepository.save(event);
-    }
-
     private void createUsers() {
         User user_1 = User.builder()
                 .userType(UserType.REGULAR)
@@ -83,6 +39,57 @@ class Runner implements CommandLineRunner {
                 .lastName("Smith")
                 .build();
 
-        userRepository.save(user_1);
+        User user_2 = User.builder()
+                .userType(UserType.REGULAR)
+                .email("peter@site.com")
+                .firstName("Peter")
+                .lastName("Dale")
+                .build();
+
+        User user_3 = User.builder()
+                .userType(UserType.REGULAR)
+                .email("samantha@site.com")
+                .firstName("Samantha")
+                .lastName("Powers")
+                .build();
+
+        User user_4 = User.builder()
+                .userType(UserType.ADMIN)
+                .email("samantha-admin@site.com")
+                .firstName("Samantha")
+                .lastName("Powers")
+                .build();
+
+        User user_5 = User.builder()
+                .userType(UserType.SUPERUSER)
+                .email("samantha-super@site.com")
+                .firstName("Samantha")
+                .lastName("Powers")
+                .build();
+
+        User user_6 = User.builder()
+                .userType(UserType.REGULAR)
+                .email("peter-p@site.com")
+                .firstName("Peter")
+                .lastName("Powers")
+                .middleName("James")
+                .build();
+
+        User user_7 = User.builder()
+                .userType(UserType.REGULAR)
+                .email("Jane@site.com")
+                .firstName("Jane")
+                .lastName("Walters")
+                .middleName("Mary")
+                .build();
+
+        userRepository.saveAll(Arrays.asList(
+                user_1,
+                user_2,
+                user_3,
+                user_4,
+                user_5,
+                user_6,
+                user_7));
     }
 }

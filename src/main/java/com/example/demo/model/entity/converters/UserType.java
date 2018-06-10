@@ -1,21 +1,35 @@
 package com.example.demo.model.entity.converters;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Arrays;
 
+/**
+ * Jackson = fasterxml
+ */
 @AllArgsConstructor
-@Getter
 public enum UserType {
-    REGULAR(1)
-
-
+    REGULAR(1),
+    ADMIN(2),
+    SUPERUSER(3)
     ;
+
+    @JsonValue // - как показывать твой ENUM в JSON
+    public Integer getId() {
+        return id;
+    }
+
 
     private Integer id;
 
-
+    /**
+     *
+     * Когда в JSON поле userType придет Integer или String или another object,
+     * Jackson пойдет искать @JsonCreator
+     */
+    @JsonCreator
     public static UserType getById(Integer id) {
         if (id == null) {
             return null;
