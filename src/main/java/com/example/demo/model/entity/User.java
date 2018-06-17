@@ -1,5 +1,6 @@
 package com.example.demo.model.entity;
 
+import com.example.demo.model.entity.converters.UserRoleConverter;
 import com.example.demo.model.entity.converters.UserTypeConverter;
 import com.example.demo.model.entity.converters.UserType;
 import lombok.*;
@@ -27,4 +28,7 @@ public class User {
     private UserType userType;
 
     private String middleName;
+
+    @Convert(converter = UserRoleConverter.class)
+    private UserRole userRole;
 }

@@ -1,7 +1,10 @@
 package com.example.demo;
 
+import com.example.demo.model.entity.Hall;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.entity.UserRole;
 import com.example.demo.model.entity.converters.UserType;
+import com.example.demo.repository.HallRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,16 +30,36 @@ class Runner implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private HallRepository hallRepository;
+
     @Override
     public void run(String... args) throws Exception {
         createUsers();
+        createHalls();
     }
+
+    private void createHalls() {
+        Hall bigHall = Hall.builder()
+                .name("Big Hall")
+                .places(500)
+                .build();
+        Hall smallHall = Hall.builder()
+                .name("Small Hall")
+                .places(200)
+                .build();
+
+        hallRepository.save(bigHall);
+        hallRepository.save(smallHall);
+    }
+
     private void createUsers() {
         User user_1 = User.builder()
                 .userType(UserType.REGULAR)
                 .email("john@site.com")
                 .firstName("John")
                 .lastName("Smith")
+                .userRole(UserRole.ADMIN)
                 .build();
 
         User user_2 = User.builder()
@@ -44,6 +67,7 @@ class Runner implements CommandLineRunner {
                 .email("peter@site.com")
                 .firstName("Peter")
                 .lastName("Dale")
+                /*.userRole(UserRole.GUEST)*/
                 .build();
 
         User user_3 = User.builder()

@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+//http://www.baeldung.com/spring-security-method-security
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
